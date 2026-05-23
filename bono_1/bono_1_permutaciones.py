@@ -1,5 +1,6 @@
 import os
-import bono_1.functions as f
+import sys
+import functions as f
 
 
 # region Casos
@@ -33,8 +34,8 @@ def make_k_permutation():
     """Pide al usuario dos números y calcula su k-permutación"""
 
     print("| Has elegido: Calcular k-permutaciones")
-    n: int = f.get_integer("| Ingrese el valor de n (entero no negativo)")
-    k: int = f.get_integer("| Ingrese el valor de k (para permutación, n >= k)")
+    n: int = f.get_integer("| Ingrese el valor de n (entero no negativo)", 0)
+    k: int = f.get_integer("| Ingrese el valor de k (para permutación, n >= k)", 0)
     result = f.k_permutation(n, k)
 
     print(f"| Puedes elegir {k} elementos de un conjunto de {n} de {result} formas")
@@ -81,7 +82,7 @@ while True:
                 make_k_permutation()
             case 4:
                 print("| Saliendo")
-                exit(0)
+                sys.exit()
     except ValueError as e:
         os.system("cls" if os.name == "nt" else "clear")
         print(

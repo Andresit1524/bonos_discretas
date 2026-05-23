@@ -44,12 +44,12 @@ def get_integer(
     msg: str = "| Ingrese un número: ", min: int = None, max: int = None
 ) -> int:
     value: int
-    first_attemp: bool = True
+    first_attempt: bool = True
 
     while True:
         # Intenta pasar a entero
         try:
-            i = input(f"{f'{msg}: ' if first_attemp else '| Intenta de nuevo: '}")
+            i = input(f"{f'{msg}: ' if first_attempt else '| Intenta de nuevo: '}")
 
             # Entrada cancelada
             if not i:
@@ -67,6 +67,6 @@ def get_integer(
             break
         except ValueError:
             print("| [Error] Entrada no válida")
-            first_attemp = False
+            first_attempt = False
 
     return value
