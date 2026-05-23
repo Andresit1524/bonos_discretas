@@ -65,22 +65,31 @@
 == Implementación
 
 === Permutaciónes
-En la implementación más básica, la librería `math` de Python ofrece la función `math.factorial` que podemos usar directamente:
+En la implementación más básica, la librería `math` de Python ofrece las función `math.factorial` y `math.perm` que podemos usar directamente:
 
 ```py
 import math as m
 
 print(m.factorial(7)) # -> 5040
+
+# math.perm ofrece ambas formas de permutación de antemano
+print(m.perm(7)) # -> 5040
+print(m.perm(7, 4)) # -> 840
 ```
 
-Sin embargo vamos a crear dos alternativas, una iterativa y una recursiva. Ambas bien conocidas en programación. Usaremos anotaciones de tipo para mejor legibilidad y errores para manejo de forma externa.
+Sin embargo vamos a crear dos alternativas a la permutación, una iterativa y una recursiva. Ambas bien conocidas en programación. Usaremos anotaciones de tipo para mejor legibilidad y errores para manejo de forma externa.
 
 ```python
-## Calcula el factorial de un entero dado usando iteración
 def iterative_factorial(n: int) -> int:
+    """Calcula el factorial de un entero dado usando iteración"""
+
+    # Error si el valor no es entero
+    if type(n) is not int:
+        raise TypeError(f"Valor no válido: {n}")
+
     # Error de valor si es menor que cero
     if n < 0:
-        raise ValueError("Valor no válido")
+        raise ValueError(f"Valor no válido: {n}")
 
     fact: int = 1
     for i in range(n):
@@ -93,15 +102,22 @@ def iterative_factorial(n: int) -> int:
     # return f.reduce(lambda x, y: x * y, range(1, n + 1))
 
 
-## Calcula el factorial de un entero dado usando recursión
 def recursive_factorial(n: int) -> int:
+    """Calcula el factorial de un entero dado usando recursión"""
+
+    # Error si el valor no es enterio
+    if type(n) is not int:
+        raise TypeError(f"Valor no válido: {n}")
+
     # Error de valor si es menor que cero
     if n < 0:
-        raise ValueError("Valor no válido")
+        raise ValueError(f"Valor no válido: {n}")
 
     # Caso base y recursivo (operador ternario)
     return n * recursive_factorial(n - 1) if n else 1
 ```
+
+#pagebreak()
 
 Este último aprovecha una propiedad de los factoriales:
 
@@ -125,11 +141,16 @@ A menos de que el código se someta a optimizaciones como la #link("https://medi
 Para el caso específico de Python, este lenguaje no es funcional puro ni ofrece optimizaciones de cola en el intérprete, por lo que se recomienda usar más el enfoque iterativo. O también el TCO manual, aunque es un poco... menos elegante:
 
 ```python
-## Implementa el factorial de un número dado usando recursión y TCO
 def recursive_factorial_tco(n: int, acum: int = 1) -> int:
+    """Implementa el factorial de un número dado usando recursión y TCO"""
+
+    # Error de tipo si el valor no es entero
+    if type(n) is not int:
+        raise TypeError(f"Valor no válido: {n}")
+
     # Error de valor si es menor que cero
     if n < 0:
-        raise ValueError("Valor no válido")
+        raise ValueError(f"Valor no válido: {n}")
 
     # Caso base
     if n == 0:
@@ -138,6 +159,8 @@ def recursive_factorial_tco(n: int, acum: int = 1) -> int:
     # Optimización de cola
     return recursive_factorial_tco(n - 1, acum * n)
 ```
+
+#pagebreak()
 
 Este proceso funciona igual que la recursión, pero en lugar de desenrollar y luego hacer el producto, desenrolla un paso y luego multiplica el término nuevo, por ejemplo:
 
@@ -159,8 +182,6 @@ $
   n"P"k = n!/(n - k)!
 $
 
-#pagebreak()
-
 Si desenrollamos el factorial $n!$ hasta llegar a $(n - k)!$ obtenemos:
 
 $
@@ -171,8 +192,13 @@ $
 Esta es de hecho la forma original de la k-permutación, que es una aplicación del principio del producto (o de las cajas) para la elección sucesiva de opciones a la hora de combinar los elementos. Con esta fórmula podemos obtener la k-permutación usando un único bucle de forma más eficiente:
 
 ```python
-## Implementa la k-permutación de un conjunto de n elementos para elegir k elementos
 def k_permutation(n: int, k: int) -> int:
+    """Implementa la k-permutación de un conjunto de n elementos para elegir k elementos"""
+
+    # Error de tipo si los valores no son enteros
+    if type(n) is not int or type(k) is not int:
+        raise TypeError(f"Valores no válidos: {n}, {k}")
+
     # Error si alguno es menor que cero o si n es menor que k
     if k < 0 or n < 0 or n < k:
         raise ValueError(f"Valores no válidos: {n}, {k}")
@@ -190,12 +216,12 @@ Para una aplicación de consola solo usaremos `print`s e `input`s para seguir un
 El programa estará en el archivo `bono_1_permutaciones/main.py`
 
 === Pruebas y casos especiales
-Para probar este sistema vamos a probar cuatro casos, con tres ejemplos diferentes para cada caso y por cada algoritmo:
+Para probar este sistema vamos a probar cuatro casos, con varios ejemplos diferentes para cada caso y por cada algoritmo:
 
 + Números correctos en un rango común (1-30)
 + Uso de negativos y del cero
-+ Números gigantes ($10^6$ y superiores)
-+ Rangos equivocados en k-permutación (k > n)
++ Números grandes (superiores a 1000)
++ Entradas incorrectas (mal rango o tipo)
 
 Esto estará en el archivo `bono_1_permutaciones/tests.py`
 
@@ -222,6 +248,7 @@ Esto estará en el archivo `bono_1_permutaciones/tests.py`
   ```
 
   Los archivos fuente se ubican en `docs/source` y los compilados en `docs`, ambos con el mismo nombre. Con `watch`, Typst compila en cada cambio que guardes mientras mantengas abierta la terminal. Si omites la segunda ruta, se compila en PDF al lado del archivo fuente.
+- Respecto al uso de IA, se usó para identificar errores más rápido y hacer consultas varias. El contenido, código y documentación están casi integramente hechas por un humano.
 
 == Referencias
 - Murat Asian (2023). _Tail Call Optimization_. Medium. https://medium.com/@murataslan1/tail-call-optimization-45321f6fe863

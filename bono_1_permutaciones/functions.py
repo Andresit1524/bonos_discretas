@@ -11,8 +11,9 @@ from typing import Optional
 # region Algoritmos
 
 
-## Calcula el factorial de un entero dado usando iteración
 def iterative_factorial(n: int) -> int:
+    """Calcula el factorial de un entero dado usando iteración"""
+
     # Error si el valor no es entero
     if type(n) is not int:
         raise TypeError(f"Valor no válido: {n}")
@@ -32,8 +33,9 @@ def iterative_factorial(n: int) -> int:
     # return f.reduce(lambda x, y: x * y, range(1, n + 1))
 
 
-## Calcula el factorial de un entero dado usando recursión
 def recursive_factorial(n: int) -> int:
+    """Calcula el factorial de un entero dado usando recursión"""
+
     # Error si el valor no es enterio
     if type(n) is not int:
         raise TypeError(f"Valor no válido: {n}")
@@ -46,8 +48,9 @@ def recursive_factorial(n: int) -> int:
     return n * recursive_factorial(n - 1) if n else 1
 
 
-## Implementa el factorial de un número dado usando recursión y TCO
 def recursive_factorial_tco(n: int, acum: int = 1) -> int:
+    """Implementa el factorial de un número dado usando recursión y TCO"""
+
     # Error de tipo si el valor no es entero
     if type(n) is not int:
         raise TypeError(f"Valor no válido: {n}")
@@ -64,8 +67,9 @@ def recursive_factorial_tco(n: int, acum: int = 1) -> int:
     return recursive_factorial_tco(n - 1, acum * n)
 
 
-## Implementa la k-permutación de un conjunto de n elementos para elegir k elementos
 def k_permutation(n: int, k: int) -> int:
+    """Implementa la k-permutación de un conjunto de n elementos para elegir k elementos"""
+
     # Error de tipo si los valores no son enteros
     if type(n) is not int or type(k) is not int:
         raise TypeError(f"Valores no válidos: {n}, {k}")
@@ -87,10 +91,11 @@ def k_permutation(n: int, k: int) -> int:
 # region Entrada y salida
 
 
-## Recibe un número del usuario con validaciones y extremos opcionales
 def get_integer(
     msg: str = "| Ingrese un número: ", min: int = None, max: int = None
 ) -> Optional[int]:
+    """Recibe un número del usuario con validaciones y extremos opcionales"""
+
     value: int
     first_attempt: bool = True
 
