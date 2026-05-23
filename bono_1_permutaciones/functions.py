@@ -1,3 +1,11 @@
+"""funcions contiene todas las funciones para el desarrollo del Bono 1. Incluye algoritmos y
+funciones auxiliares para la entrada y salide de datos
+"""
+
+
+# region Algoritmos
+
+
 ## Calcula el factorial de un entero dado usando iteración
 def iterative_factorial(n: int) -> int:
     # Error de valor si es menor que cero
@@ -25,6 +33,20 @@ def recursive_factorial(n: int) -> int:
     return n * recursive_factorial(n - 1) if n else 1
 
 
+## Implementa el factorial de un número dado usando recursión y TCO
+def recursive_factorial_tco(n: int, acum: int = 1) -> int:
+    # Error de valor si es menor que cero
+    if n < 0:
+        raise ValueError("Valor no válido")
+
+    # Caso base
+    if n == 0:
+        return acum
+
+    # Optimización de cola
+    return recursive_factorial_tco(n - 1, acum * n)
+
+
 ## Implementa la k-permutación de un conjunto de n elementos para elegir k elementos
 def k_permutation(n: int, k: int) -> int:
     # Error si alguno es menor que cero o si k es menor que n
@@ -36,6 +58,12 @@ def k_permutation(n: int, k: int) -> int:
         result *= i
 
     return result
+
+
+# endregion
+
+
+# region Entrada y salida
 
 
 ## Recibe un número del usuario con validaciones y extremos opcionales
@@ -52,7 +80,7 @@ def get_integer(
 
             # Entrada cancelada
             if not i:
-                print("| Entrada cancelada")
+                print_margin("Entrada cancelada")
                 break
 
             value = int(i)
@@ -65,7 +93,20 @@ def get_integer(
 
             break
         except ValueError:
-            print("| [Error] Entrada no válida")
+            print_margin("[Error] Entrada no válida")
             first_attempt = False
 
     return value
+
+
+def blank_line():
+    """Imprime una línea en blanco con amrgen"""
+    print("| ")
+
+
+def print_margin(text: str):
+    """Imprime con un margen"""
+    print(f"| {text}")
+
+
+# endregion
