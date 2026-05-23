@@ -1,5 +1,8 @@
 """funcions contiene todas las funciones para el desarrollo del Bono 1. Incluye algoritmos y
-funciones auxiliares para la entrada y salide de datos
+funciones auxiliares para la entrada y salide de datos.
+
+Los algoritmos incluyen verificaiones de tipo, porque resulta que las anotaciones de tipo en Python
+son de adorno literalmente >:(
 """
 
 from typing import Optional
@@ -10,9 +13,13 @@ from typing import Optional
 
 ## Calcula el factorial de un entero dado usando iteración
 def iterative_factorial(n: int) -> int:
+    # Error si el valor no es entero
+    if type(n) is not int:
+        raise TypeError(f"Valor no válido: {n}")
+
     # Error de valor si es menor que cero
     if n < 0:
-        raise ValueError("Valor no válido")
+        raise ValueError(f"Valor no válido: {n}")
 
     fact: int = 1
     for i in range(n):
@@ -27,9 +34,13 @@ def iterative_factorial(n: int) -> int:
 
 ## Calcula el factorial de un entero dado usando recursión
 def recursive_factorial(n: int) -> int:
+    # Error si el valor no es enterio
+    if type(n) is not int:
+        raise TypeError(f"Valor no válido: {n}")
+
     # Error de valor si es menor que cero
     if n < 0:
-        raise ValueError("Valor no válido")
+        raise ValueError(f"Valor no válido: {n}")
 
     # Caso base y recursivo (operador ternario)
     return n * recursive_factorial(n - 1) if n else 1
@@ -37,9 +48,13 @@ def recursive_factorial(n: int) -> int:
 
 ## Implementa el factorial de un número dado usando recursión y TCO
 def recursive_factorial_tco(n: int, acum: int = 1) -> int:
+    # Error de tipo si el valor no es entero
+    if type(n) is not int:
+        raise TypeError(f"Valor no válido: {n}")
+
     # Error de valor si es menor que cero
     if n < 0:
-        raise ValueError("Valor no válido")
+        raise ValueError(f"Valor no válido: {n}")
 
     # Caso base
     if n == 0:
@@ -51,6 +66,10 @@ def recursive_factorial_tco(n: int, acum: int = 1) -> int:
 
 ## Implementa la k-permutación de un conjunto de n elementos para elegir k elementos
 def k_permutation(n: int, k: int) -> int:
+    # Error de tipo si los valores no son enteros
+    if type(n) is not int or type(k) is not int:
+        raise TypeError(f"Valores no válidos: {n}, {k}")
+
     # Error si alguno es menor que cero o si n es menor que k
     if k < 0 or n < 0 or n < k:
         raise ValueError(f"Valores no válidos: {n}, {k}")
