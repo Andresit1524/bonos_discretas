@@ -34,19 +34,23 @@
   show quote.where(block: true): block.with(
     stroke: (left: 2pt + gray, rest: none),
     inset: (y: 0.5em),
-    outset: (left: 0em),
   )
 
   // Bloques de código
   show raw: set text(font: "Consolas")
-  show raw.where(block: true): set text(fill: rgb("#d4d4d4"))
   set raw(tab-size: 4, theme: "vscode_darkplus.tmTheme")
+  show raw.where(block: false): set text(size: 11pt)
   show raw.where(block: true): it => rect(
     fill: rgb("#1e1e1e"),
-    inset: 10pt,
-    radius: 10pt,
+    inset: (y: 1.3em, x: 1em),
+    radius: 1em,
     width: 100%,
-  )[#it]
+  )[
+    #text(fill: rgb("#d4d4d4"))[#it]
+  ]
+
+  // Otros
+  show link: it => text(fill: rgb("#075985"))[#it]
 
   body
 }
@@ -56,7 +60,7 @@
   width: 100%,
   fill: color,
   stroke: 1pt,
-  radius: 10pt,
-  inset: 10pt,
+  radius: 1em,
+  inset: 1em,
   body,
 )

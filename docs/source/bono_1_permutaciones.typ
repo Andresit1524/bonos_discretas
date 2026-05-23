@@ -57,17 +57,15 @@
 
   Es necesario que $k <= n$, porque si no, $n - k$ es negativo, y por ende $(n - k)!$ no existe.
 
-  #quote(block: true)[
-    En la permutación el orden de selección de los elementos siempre importa. La permutación normal puede considerarse un caso especial de la k-permutación donde $k = n$.
-  ]
+  En la permutación el orden de selección de los elementos siempre importa. La permutación puede considerarse un caso especial de la k-permutación donde $k = n$.
 ]
 
 #pagebreak()
 
 == Implementación
 
-=== 1. Permutaciónes
-En la forma más básica, la librería `math` de Python ofrece la función `math.factorial` que podemos usar directamente:
+=== Permutaciónes
+En la implementación más básica, la librería `math` de Python ofrece la función `math.factorial` que podemos usar directamente:
 
 ```py
 import math as m
@@ -105,7 +103,7 @@ def recursive_factorial(n: int) -> int:
     return n * recursive_factorial(n - 1) if n else 1
 ```
 
-Este aprovecha una propiedad de los factoriales:
+Este último aprovecha una propiedad de los factoriales:
 
 $
   n! = n (n - 1)!
@@ -119,21 +117,49 @@ $
   n! = 1 dot 2 dot 3 dot ... dot n
 $
 
-#quote(block: true)[
-  ==== Diferencia de rendimiento
-  Ambos algoritmos (iterativo y recursivo) hacen el mismo proceso (multiplicar los números desde 1 hasta $n$) pero el método recursivo es menos eficiente por el consumo de memoria y stack.
+=== Rendimiento de la versión recursiva
+Ambos algoritmos (iterativo y recursivo) hacen el mismo proceso (multiplicar los números desde 1 hasta $n$) pero el método recursivo es menos eficiente por el consumo de memoria y stack.
 
-  A menos de que el código se someta a optimizaciones de compilador como la *optimización de llamada de cola* o este escrito en lenguajes funcionales puros como Haskell, el método recursivo posee el riesgo de crear un desborde de pila de llamadas (stack overflow) y consumir tanta memoria como lo diga el número a calcular.
+A menos de que el código se someta a optimizaciones como la #link("https://medium.com/@murataslan1/tail-call-optimization-45321f6fe863")[optimización de llamada de cola (TCO)] a nivel de compilador o esté escrito en lenguajes funcionales puros como Haskell, el método recursivo posee el riesgo de crear un desborde de pila de llamadas (stack overflow) o un `RecursionError` de python y consumir tanta memoria como lo diga el número a calcular.
 
-  Para el caso específico de Python, este lenguaje no es funcional puro ni ofrece optimizaciones de cola, por lo que se recomienda usar más el enfoque iterativo.
-]
+Para el caso específico de Python, este lenguaje no es funcional puro ni ofrece optimizaciones de cola en el intérprete, por lo que se recomienda usar más el enfoque iterativo. O también el TCO manual, aunque es un poco... menos elegante:
 
-=== 2. K-permutaciones
+```python
+## Implementa el factorial de un número dado usando recursión y TCO
+def recursive_factorial_tco(n: int, acum: int = 1) -> int:
+    # Error de valor si es menor que cero
+    if n < 0:
+        raise ValueError("Valor no válido")
+
+    # Caso base
+    if n == 0:
+        return acum
+
+    # Optimización de cola
+    return recursive_factorial_tco(n - 1, acum * n)
+```
+
+Este proceso funciona igual que la recursión, pero en lugar de desenrollar y luego hacer el producto, desenrolla un paso y luego multiplica el término nuevo, por ejemplo:
+
+$
+  7! & = 7 dot 6! \
+  7! & = 42 dot 5! \
+  7! & = 210 dot 4! \
+  7! & = 840 dot 3! \
+     & ... \
+  7! & = 5040
+$
+
+Sin embargo esto no nos salva del `RecursionError` de Python.
+
+=== K-permutaciones
 Para las k-permutaciones podríamos usar los factoriales anteriores, o el de la librería `math`. Sin embargo vamos a indagar de que van las k-permutaciones para hallar una optimización. La fórmula de las k-permutaciones es.
 
 $
   n"P"k = n!/(n - k)!
 $
+
+#pagebreak()
 
 Si desenrollamos el factorial $n!$ hasta llegar a $(n - k)!$ obtenemos:
 
@@ -159,12 +185,12 @@ def k_permutation(n: int, k: int) -> int:
 ```
 
 === Aplicación de consola
-Para una aplicación de consola solo usaremos `print`s e `input`s para seguir un flujo de usuario básico. También se incluyen verificaciones de errores bien manejados y código limpio y modular.
+Para una aplicación de consola solo usaremos `print`s e `input`s para seguir un flujo de usuario básico. También se incluyen verificaciones de errores bien manejados y código más o menos limpio y modular.
 
-Esto estará en el archivo `bono_1_permutaciones/main.py`
+El programa estará en el archivo `bono_1_permutaciones/main.py`
 
 === Pruebas y casos especiales
-Para probar este sistema vamos a probar cuatro situaciones, con tres ejemplos diferentes para cada uno:
+Para probar este sistema vamos a probar cuatro casos, con tres ejemplos diferentes para cada caso y por cada algoritmo:
 
 + Números correctos en un rango común (1-30)
 + Uso de negativos y del cero
@@ -173,9 +199,10 @@ Para probar este sistema vamos a probar cuatro situaciones, con tres ejemplos di
 
 Esto estará en el archivo `bono_1_permutaciones/tests.py`
 
-== Comentarios y extras
-- En algún momento hice un prototipo en una libreta de Jupyter, pero rapidamente se volvia lento y con bugs típicos de las libretas en local. Decidí borrarla.
+#pagebreak()
 
+== Comentarios y extras
+- En algún momento hice un prototipo en una libreta de Jupyter, pero rapidamente se volvia lento y con bugs típicos de las libretas en VSCode. Decidí borrarla.
 - También pensé en usar Julia en lugar de Python, pero no lo conozco lo suficientemente bien para usarlo de forma cómoda. Solo como curiosidad, así sería el factorial recursivo allí.
 
   ```julia
@@ -188,4 +215,14 @@ Esto estará en el archivo `bono_1_permutaciones/tests.py`
   ```
 
 - Uso Python 3.13.5 para este ejercicio. Pero funcionará en cualquier Python moderno.
-- Esta documentación está hecha con Typst. Revisa en la carpeta `docs/source/` para ver los archivos fuente.
+- Esta documentación está hecha con Typst. Revisa en la carpeta `docs/source/` para ver los archivos fuente. Para compilar cualquier cambio #link("https://typst.app/open-source/#download")[instala typst] en tu dispositivo y compila con:
+
+  ```bash
+  typst watch docs/source/archivo.typ [docs/archivo.pdf]
+  ```
+
+  Los archivos fuente se ubican en `docs/source` y los compilados en `docs`, ambos con el mismo nombre. Con `watch`, Typst compila en cada cambio que guardes mientras mantengas abierta la terminal. Si omites la segunda ruta, se compila en PDF al lado del archivo fuente.
+
+== Referencias
+- Murat Asian (2023). _Tail Call Optimization_. Medium. https://medium.com/@murataslan1/tail-call-optimization-45321f6fe863
+- Datacamp (2025). _Recursión en Python: Conceptos, ejemplos y consejos_ https://www.datacamp.com/es/tutorial/recursion-in-python
