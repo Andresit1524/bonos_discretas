@@ -173,8 +173,8 @@ Esta es de hecho la forma original de la k-permutación, que es una aplicación 
 ```python
 ## Implementa la k-permutación de un conjunto de n elementos para elegir k elementos
 def k_permutation(n: int, k: int) -> int:
-    # Error si alguno es menor que cero o si k es menor que n
-    if k < 0 or n < 0 or k < n:
+    # Error si alguno es menor que cero o si n es menor que k
+    if k < 0 or n < 0 or n < k:
         raise ValueError(f"Valores no válidos: {n}, {k}")
 
     result: int = 1

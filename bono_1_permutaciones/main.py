@@ -10,7 +10,9 @@ def make_iterative_permutation():
     """Pide al usuario un número y calcula su permutación usando factorial iterativo"""
 
     f.print_margin("Has elegido: Calcular permutaciones (factorial iterativo)")
-    n: int = f.get_integer("| Ingrese el valor de n (entero no negativo)", 0)
+    n = f.get_integer("| Ingrese el valor de n (entero no negativo)", 0)
+    if n is None:
+        return
     result: int = f.iterative_factorial(n)
 
     f.print_margin(f"Puedes permutar {n} elementos de {result} formas diferentes")
@@ -24,7 +26,9 @@ def make_recursive_permutation():
     """
 
     f.print_margin("Has elegido: Calcular permutaciones (factorial recursivo)")
-    n: int = f.get_integer("| Ingrese el valor de n (entero no negativo)", 0)
+    n = f.get_integer("| Ingrese el valor de n (entero no negativo)", 0)
+    if n is None:
+        return
 
     result1: int = f.recursive_factorial(n)
     f.print_margin(f"Puedes permutar {n} elementos de {result1} formas diferentes")
@@ -41,8 +45,12 @@ def make_k_permutation():
     """Pide al usuario dos números y calcula su k-permutación"""
 
     f.print_margin("Has elegido: Calcular k-permutaciones")
-    n: int = f.get_integer("| Ingrese el valor de n (entero no negativo)", 0)
-    k: int = f.get_integer("| Ingrese el valor de k (para permutación, n >= k)", 0)
+    n = f.get_integer("| Ingrese el valor de n (entero no negativo)", 0)
+    if n is None:
+        return
+    k = f.get_integer("| Ingrese el valor de k (para permutación, n >= k)", 0)
+    if k is None:
+        return
     result = f.k_permutation(n, k)
 
     f.print_margin(
@@ -80,8 +88,11 @@ while True:
 
     # Bucle principal
     try:
-        value: int = f.get_integer("| Ingrese su opción", 1, 4)
+        value = f.get_integer("| Ingrese su opción", 1, 4)
         f.blank_line()
+        if value is None:
+            f.print_margin("Saliendo (entrada cancelada)")
+            break
         match value:
             case 1:
                 make_iterative_permutation()
@@ -91,7 +102,7 @@ while True:
                 make_k_permutation()
             case 4:
                 f.print_margin("Saliendo")
-                sys.exit()
+                break
     except ValueError as e:
         os.system("cls" if os.name == "nt" else "clear")
         f.blank_line()

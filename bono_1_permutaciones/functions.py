@@ -2,6 +2,8 @@
 funciones auxiliares para la entrada y salide de datos
 """
 
+from typing import Optional
+
 
 # region Algoritmos
 
@@ -49,8 +51,8 @@ def recursive_factorial_tco(n: int, acum: int = 1) -> int:
 
 ## Implementa la k-permutación de un conjunto de n elementos para elegir k elementos
 def k_permutation(n: int, k: int) -> int:
-    # Error si alguno es menor que cero o si k es menor que n
-    if k < 0 or n < 0 or k < n:
+    # Error si alguno es menor que cero o si n es menor que k
+    if k < 0 or n < 0 or n < k:
         raise ValueError(f"Valores no válidos: {n}, {k}")
 
     result: int = 1
@@ -69,7 +71,7 @@ def k_permutation(n: int, k: int) -> int:
 ## Recibe un número del usuario con validaciones y extremos opcionales
 def get_integer(
     msg: str = "| Ingrese un número: ", min: int = None, max: int = None
-) -> int:
+) -> Optional[int]:
     value: int
     first_attempt: bool = True
 
@@ -81,7 +83,7 @@ def get_integer(
             # Entrada cancelada
             if not i:
                 print_margin("Entrada cancelada")
-                break
+                return None
 
             value = int(i)
 
