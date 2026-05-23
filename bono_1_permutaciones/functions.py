@@ -31,7 +31,6 @@ def k_permutation(n: int, k: int) -> int:
     if k < 0 or n < 0 or k < n:
         raise ValueError(f"Valores no válidos: {n}, {k}")
 
-    # ? n+1 para abarcar n. range no es inclusivo al final
     result: int = 1
     for i in range(n - k + 1, n + 1):
         result *= i

@@ -47,6 +47,8 @@
     Donde $n_1$, $n_2$, ..., son las repeticiones de cada elemento.
   ]
 
+  #colbreak()
+
   Por el otro lado, la k-permutación es un tipo de permutación en el que se seleccionan $k$ elementos de un conjunto de $n$ elementos y cuenta cuantas posibilidades de elegir hay. La fórmula para esto es:
 
   $
@@ -54,6 +56,7 @@
   $
 
   Es necesario que $k <= n$, porque si no, $n - k$ es negativo, y por ende $(n - k)!$ no existe.
+
   #quote(block: true)[
     En la permutación el orden de selección de los elementos siempre importa. La permutación normal puede considerarse un caso especial de la k-permutación donde $k = n$.
   ]
@@ -121,12 +124,12 @@ $
   Ambos algoritmos (iterativo y recursivo) hacen el mismo proceso (multiplicar los números desde 1 hasta $n$) pero el método recursivo es menos eficiente por el consumo de memoria y stack.
 
   A menos de que el código se someta a optimizaciones de compilador como la *optimización de llamada de cola* o este escrito en lenguajes funcionales puros como Haskell, el método recursivo posee el riesgo de crear un desborde de pila de llamadas (stack overflow) y consumir tanta memoria como lo diga el número a calcular.
+
+  Para el caso específico de Python, este lenguaje no es funcional puro ni ofrece optimizaciones de cola, por lo que se recomienda usar más el enfoque iterativo.
 ]
 
 === 2. K-permutaciones
-Para las k-permutaciones podríamos usar los factoriales anteriores, o el de la librería `math`. Sin embargo vamos a indagar de que van las k-permutaciones.
-
-La fórmula es.
+Para las k-permutaciones podríamos usar los factoriales anteriores, o el de la librería `math`. Sin embargo vamos a indagar de que van las k-permutaciones para hallar una optimización. La fórmula de las k-permutaciones es.
 
 $
   n"P"k = n!/(n - k)!
@@ -148,7 +151,6 @@ def k_permutation(n: int, k: int) -> int:
     if k < 0 or n < 0 or k < n:
         raise ValueError(f"Valores no válidos: {n}, {k}")
 
-    # ? n+1 para abarcar n. range no es inclusivo al final
     result: int = 1
     for i in range(n - k + 1, n + 1):
         result *= i
@@ -159,3 +161,31 @@ def k_permutation(n: int, k: int) -> int:
 === Aplicación de consola
 Para una aplicación de consola solo usaremos `print`s e `input`s para seguir un flujo de usuario básico. También se incluyen verificaciones de errores bien manejados y código limpio y modular.
 
+Esto estará en el archivo `bono_1_permutaciones/main.py`
+
+=== Pruebas y casos especiales
+Para probar este sistema vamos a probar cuatro situaciones, con tres ejemplos diferentes para cada uno:
+
++ Números correctos en un rango común (1-30)
++ Uso de negativos y del cero
++ Números gigantes ($10^6$ y superiores)
++ Rangos equivocados en k-permutación (k > n)
+
+Esto estará en el archivo `bono_1_permutaciones/tests.py`
+
+== Comentarios y extras
+- En algún momento hice un prototipo en una libreta de Jupyter, pero rapidamente se volvia lento y con bugs típicos de las libretas en local. Decidí borrarla.
+
+- También pensé en usar Julia en lugar de Python, pero no lo conozco lo suficientemente bien para usarlo de forma cómoda. Solo como curiosidad, así sería el factorial recursivo allí.
+
+  ```julia
+  function recursive_factorial(n::Int64)::Int64
+      if n < 0
+          throw(DomainError("Valor no válido: $(n)"))
+      end
+      return n != 0 ? n * recursive_factorial(n - 1) : 1
+  end
+  ```
+
+- Uso Python 3.13.5 para este ejercicio. Pero funcionará en cualquier Python moderno.
+- Esta documentación está hecha con Typst. Revisa en la carpeta `docs/source/` para ver los archivos fuente.

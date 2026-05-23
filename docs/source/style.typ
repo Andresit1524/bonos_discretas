@@ -38,8 +38,15 @@
   )
 
   // Bloques de código
-  show raw: set text(font: "Google Sans Code")
-  set raw(tab-size: 4)
+  show raw: set text(font: "Consolas")
+  show raw.where(block: true): set text(fill: rgb("#d4d4d4"))
+  set raw(tab-size: 4, theme: "vscode_darkplus.tmTheme")
+  show raw.where(block: true): it => rect(
+    fill: rgb("#1e1e1e"),
+    inset: 10pt,
+    radius: 10pt,
+    width: 100%,
+  )[#it]
 
   body
 }
