@@ -1,10 +1,12 @@
 """
-Este archivo contiene los tests para los algoritmos en puro de la permutación y k-permutación. Se prueban 4 casos:
+Este archivo contiene los tests para los algoritmos de la permutación y k-permutación. Se prueban 4 casos:
 
-1. Casos váliidos
+1. Casos válidos
 2. Casos con negativos y ceros
 3. Casos con números grandes
 4. Casos con valores erróneos (por tipo o rango)
+
+Por simplicidad se contrastan todos los resultados con math.factorial y math.perm.
 """
 
 import unittest
@@ -18,28 +20,28 @@ class TestValidInputs(unittest.TestCase):
     """
 
     def test_iterative_factorial(self):
-        self.assertEqual(f.iterative_factorial(1), 1)
-        self.assertEqual(f.iterative_factorial(3), 6)
-        self.assertEqual(f.iterative_factorial(10), 3628800)
-        self.assertEqual(f.iterative_factorial(20), 2432902008176640000)
+        self.assertEqual(f.iterative_factorial(1), m.factorial(1))
+        self.assertEqual(f.iterative_factorial(3), m.factorial(3))
+        self.assertEqual(f.iterative_factorial(10), m.factorial(10))
+        self.assertEqual(f.iterative_factorial(20), m.factorial(20))
 
     def test_recursive_factorial(self):
-        self.assertEqual(f.recursive_factorial(1), 1)
-        self.assertEqual(f.recursive_factorial(3), 6)
-        self.assertEqual(f.recursive_factorial(10), 3628800)
-        self.assertEqual(f.recursive_factorial(20), 2432902008176640000)
+        self.assertEqual(f.recursive_factorial(1), m.factorial(1))
+        self.assertEqual(f.recursive_factorial(3), m.factorial(3))
+        self.assertEqual(f.recursive_factorial(10), m.factorial(10))
+        self.assertEqual(f.recursive_factorial(20), m.factorial(20))
 
     def test_recursive_factorial_tco(self):
-        self.assertEqual(f.recursive_factorial_tco(1), 1)
-        self.assertEqual(f.recursive_factorial_tco(3), 6)
-        self.assertEqual(f.recursive_factorial_tco(10), 3628800)
-        self.assertEqual(f.recursive_factorial_tco(20), 2432902008176640000)
+        self.assertEqual(f.recursive_factorial_tco(1), m.factorial(1))
+        self.assertEqual(f.recursive_factorial_tco(3), m.factorial(3))
+        self.assertEqual(f.recursive_factorial_tco(10), m.factorial(10))
+        self.assertEqual(f.recursive_factorial_tco(20), m.factorial(20))
 
     def test_k_permutation(self):
-        self.assertEqual(f.k_permutation(10, 6), 151200)
-        self.assertEqual(f.k_permutation(20, 2), 380)
-        self.assertEqual(f.k_permutation(30, 5), 17100720)
-        self.assertEqual(f.k_permutation(54, 4), 7590024)
+        self.assertEqual(f.k_permutation(10, 6), m.perm(10, 6))
+        self.assertEqual(f.k_permutation(20, 2), m.perm(20, 2))
+        self.assertEqual(f.k_permutation(30, 5), m.perm(30, 5))
+        self.assertEqual(f.k_permutation(54, 4), m.perm(54, 4))
 
 
 class TestNegativesAndZeros(unittest.TestCase):
@@ -100,7 +102,6 @@ class TestBigNumbers(unittest.TestCase):
     """
 
     # El factorial iterativo funciona bien con números así
-    # Por simplicidad se contrastan con math.perm
     def test_iterative_factorial(self):
         self.assertEqual(f.iterative_factorial(1001), m.perm(1001))
         self.assertEqual(f.iterative_factorial(2000), m.perm(2000))
@@ -131,7 +132,6 @@ class TestBigNumbers(unittest.TestCase):
             f.recursive_factorial_tco(10000)
 
     # La k-permutación funciona bien con números así
-    # Por simplifidad se contrasta con math.perm
     def test_k_permutation(self):
         self.assertEqual(f.k_permutation(1001, 233), m.perm(1001, 233))
         self.assertEqual(f.k_permutation(2000, 433), m.perm(2000, 433))

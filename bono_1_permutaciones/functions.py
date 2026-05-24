@@ -1,7 +1,7 @@
-"""funcions contiene todas las funciones para el desarrollo del Bono 1. Incluye algoritmos y
-funciones auxiliares para la entrada y salide de datos.
+"""functions contiene todas las funciones para el desarrollo del Bono 1 - Permutaciones y
+k-permutaciones. Incluye algoritmos y funciones auxiliares para la entrada y salida de datos.
 
-Los algoritmos incluyen verificaiones de tipo, porque resulta que las anotaciones de tipo en Python
+Los algoritmos incluyen verificaciones de tipo, porque resulta que las anotaciones de tipo en Python
 son de adorno literalmente >:(
 """
 
@@ -126,7 +126,7 @@ def get_integer(
 
 
 def blank_line():
-    """Imprime una línea en blanco con amrgen"""
+    """Imprime una línea en blanco con margen"""
     print("| ")
 
 

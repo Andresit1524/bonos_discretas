@@ -53,7 +53,7 @@ def make_k_permutation():
     result = f.k_permutation(n, k)
 
     f.print_margin(
-        f"Puedes elegir {k} elementos de un conjunto de {n} de {result} formas"
+        f"Puedes elegir {k} elementos de un conjunto de {n} de {result} formas diferentes"
     )
     f.blank_line()
 
@@ -68,13 +68,13 @@ def print_header():
     """Imprime el encabezado de la calculadora"""
 
     print("+--------------------------------------------------------+")
-    f.print_margin("      Calculadora de factoriales y permutaciones       |")
+    print("|       Calculadora de factoriales y permutaciones       |")
     print("+--------------------------------------------------------+")
-    f.print_margin("Elige una opción                                       |")
-    f.print_margin("1. Calcular permutaciones (factorial iterativo)        |")
-    f.print_margin("2. Calcular permutaciones (factorial recursivo)        |")
-    f.print_margin("3. Calcular k-permutaciones                            |")
-    f.print_margin("4. Salir                                               |")
+    print("| Elige una opción                                       |")
+    print("| 1. Calcular permutaciones (factorial iterativo)        |")
+    print("| 2. Calcular permutaciones (factorial recursivo)        |")
+    print("| 3. Calcular k-permutaciones                            |")
+    print("| 4. Salir                                               |")
     print("+--------------------------------------------------------+")
 
 
@@ -104,11 +104,11 @@ while True:
                 break
     except ValueError as e:
         os.system("cls" if os.name == "nt" else "clear")
-        f.blank_line()
         f.print_margin(
             f"Error: {e}. Por favor, asegúrese de ingresar números enteros válidos."
         )
+        f.blank_line()
     except Exception as e:
         os.system("cls" if os.name == "nt" else "clear")
-        f.blank_line()
         f.print_margin(f"Ocurrió un error inesperado: {e}")
+        f.blank_line()

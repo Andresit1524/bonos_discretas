@@ -65,7 +65,7 @@
 == Implementación
 
 === Permutaciónes
-En la implementación más básica, la librería `math` de Python ofrece las función `math.factorial` y `math.perm` que podemos usar directamente:
+En la implementación más básica, la librería `math` de Python ofrece las funciones `math.factorial` y `math.perm` que podemos usar directamente:
 
 ```py
 import math as m
@@ -125,7 +125,17 @@ $
   n! = n (n - 1)!
 $
 
-Si se repite este proceso con el factorial resultante de la derecha, podemos "desenrollar" un factorial hasta llegar a la forma base $0! = 1$. La forma recursiva desenrolla hasta llegar al caso base y procede luego con los productos.
+Si se repite este proceso con el factorial resultante de la derecha, podemos "desenrollar" un factorial hasta llegar a la forma base $0! = 1$. La forma recursiva desenrolla hasta llegar al caso base y procede luego con los productos. Por ejemplo:
+
+$
+  7! & = 7 dot 6! \
+  7! & = 7 dot 6 dot 5! \
+  7! & = 7 dot 6 dot 5 dot 4! \
+  7! & = 7 dot 6 dot 5 dot 4 dot 3! \
+     & ... \
+  7! & = 7 dot 6 dot 5 dot 4 dot 3 dot 2 dot 1 dot 1 \
+  7! & = 5040
+$
 
 La forma iterativa simplemente hace:
 
@@ -134,9 +144,9 @@ $
 $
 
 === Rendimiento de la versión recursiva
-Ambos algoritmos (iterativo y recursivo) hacen el mismo proceso (multiplicar los números desde 1 hasta $n$) pero el método recursivo es menos eficiente por el consumo de memoria y stack.
+Ambos algoritmos (iterativo y recursivo) hacen el mismo proceso (multiplicar los números desde 1 hasta $n$) pero el método recursivo es menos eficiente por el consumo de memoria y stack (pila de llamadas).
 
-A menos de que el código se someta a optimizaciones como la #link("https://medium.com/@murataslan1/tail-call-optimization-45321f6fe863")[optimización de llamada de cola (TCO)] a nivel de compilador o esté escrito en lenguajes funcionales puros como Haskell, el método recursivo posee el riesgo de crear un desborde de pila de llamadas (stack overflow) o un `RecursionError` de python y consumir tanta memoria como lo diga el número a calcular.
+A menos de que el código se someta a optimizaciones como la #link("https://medium.com/@murataslan1/tail-call-optimization-45321f6fe863")[optimización de llamada de cola (TCO)] a nivel de compilador o esté escrito en lenguajes funcionales puros como Haskell, el método recursivo posee el riesgo de crear un desborde de pila de llamadas (stack overflow) o un `RecursionError` (en Python) y consumir tanta memoria como lo diga el número a calcular.
 
 Para el caso específico de Python, este lenguaje no es funcional puro ni ofrece optimizaciones de cola en el intérprete, por lo que se recomienda usar más el enfoque iterativo. O también el TCO manual, aunque es un poco... menos elegante:
 
@@ -160,8 +170,6 @@ def recursive_factorial_tco(n: int, acum: int = 1) -> int:
     return recursive_factorial_tco(n - 1, acum * n)
 ```
 
-#pagebreak()
-
 Este proceso funciona igual que la recursión, pero en lugar de desenrollar y luego hacer el producto, desenrolla un paso y luego multiplica el término nuevo, por ejemplo:
 
 $
@@ -176,7 +184,7 @@ $
 Sin embargo esto no nos salva del `RecursionError` de Python.
 
 === K-permutaciones
-Para las k-permutaciones podríamos usar los factoriales anteriores, o el de la librería `math`. Sin embargo vamos a indagar de que van las k-permutaciones para hallar una optimización. La fórmula de las k-permutaciones es.
+Para las k-permutaciones podríamos usar los factoriales anteriores, o `math.perm`. Sin embargo vamos a indagar de que van las k-permutaciones para hallar una optimización. La fórmula de las k-permutaciones es.
 
 $
   n"P"k = n!/(n - k)!
@@ -189,7 +197,7 @@ $
   n"P"k & = n dot (n - 1) dot (n - 2) dot dots dot (n - k + 1)
 $
 
-Esta es de hecho la forma original de la k-permutación, que es una aplicación del principio del producto (o de las cajas) para la elección sucesiva de opciones a la hora de combinar los elementos. Con esta fórmula podemos obtener la k-permutación usando un único bucle de forma más eficiente:
+Esta es de hecho la forma original de la k-permutación, que es una aplicación del principio del producto (o de las cajas) para la elección sucesiva de elementos siguiendo los criterios de la permutación. Con esta fórmula podemos obtener la k-permutación usando un único bucle de forma más eficiente:
 
 ```python
 def k_permutation(n: int, k: int) -> int:
@@ -211,19 +219,19 @@ def k_permutation(n: int, k: int) -> int:
 ```
 
 === Aplicación de consola
-Para una aplicación de consola solo usaremos `print`s e `input`s para seguir un flujo de usuario básico. También se incluyen verificaciones de errores bien manejados y código más o menos limpio y modular.
+Para una aplicación de consola solo usaremos `print`s e `input`s para seguir un flujo de usuario básico. También se incluyen verificaciones de errores bien manejados y un código limpio y modular.
 
 El programa estará en el archivo `bono_1_permutaciones/main.py`
 
 === Pruebas y casos especiales
 Para probar este sistema vamos a probar cuatro casos, con varios ejemplos diferentes para cada caso y por cada algoritmo:
 
-+ Números correctos en un rango común (1-30)
++ Números correctos en un rango común (1-100)
 + Uso de negativos y del cero
 + Números grandes (superiores a 1000)
-+ Entradas incorrectas (mal rango o tipo)
++ Entradas incorrectas (mal rango o tipo incorrecto)
 
-Esto estará en el archivo `bono_1_permutaciones/tests.py`
+Este programa estará en el archivo `bono_1_permutaciones/tests.py`
 
 #pagebreak()
 
@@ -248,7 +256,7 @@ Esto estará en el archivo `bono_1_permutaciones/tests.py`
   ```
 
   Los archivos fuente se ubican en `docs/source` y los compilados en `docs`, ambos con el mismo nombre. Con `watch`, Typst compila en cada cambio que guardes mientras mantengas abierta la terminal. Si omites la segunda ruta, se compila en PDF al lado del archivo fuente.
-- Respecto al uso de IA, se usó para identificar errores más rápido y hacer consultas varias. El contenido, código y documentación están casi integramente hechas por un humano.
+- Respecto al uso de IA, se usó para identificar errores más rápido y hacer consultas varias. El contenido, código y documentación están integramente hechas por un humano.
 
 == Referencias
 - Murat Asian (2023). _Tail Call Optimization_. Medium. https://medium.com/@murataslan1/tail-call-optimization-45321f6fe863
